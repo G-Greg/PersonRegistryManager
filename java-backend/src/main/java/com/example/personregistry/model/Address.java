@@ -1,5 +1,6 @@
 package com.example.personregistry.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Address {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "person_id")
     private Person person;
 
@@ -24,7 +26,8 @@ public class Address {
 
     private String street;
 
-    private boolean isPermanent;
+    @Column(name = "is_permanent")
+    private int isPermanent;
 
 }
 
