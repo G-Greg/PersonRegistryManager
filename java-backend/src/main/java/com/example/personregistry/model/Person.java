@@ -1,9 +1,9 @@
 package com.example.personregistry.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,6 +11,9 @@ import java.util.List;
 @Table(name = "Persons")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
 
     @Id
@@ -28,4 +31,18 @@ public class Person {
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Contact> contacts;
+
+
+
+    public void setAddresses(List<Address> addresses) {
+        if (addresses == null) {
+            addresses = new ArrayList<>();
+        }
+
+        if (addresses.size() < 2) {
+            this.addresses = addresses;
+        } else {
+            throw new RuntimeException("Egy személyhez legfeljebb két cím tartozhat!");
+        }
+    }
 }

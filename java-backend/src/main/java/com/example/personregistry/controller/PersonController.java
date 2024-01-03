@@ -34,9 +34,9 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person updatedPerson) {
-        Person person = service.updatePerson(id, updatedPerson);
-        return ResponseEntity.ok(person);
+    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
+        Person updatedPerson = service.updatePerson(id, person);
+        return ResponseEntity.ok(updatedPerson);
     }
 
     @DeleteMapping("/{id}")

@@ -2,6 +2,7 @@ package com.example.personregistry.service;
 
 import com.example.personregistry.model.Contact;
 import com.example.personregistry.repository.ContactRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class ContactService {
     }
 
     public Contact getContactById(Long id) {
+        var optional = repository.findById(id);
+        if (optional.isPresent())
+            return optional.get();
         return null;
     }
 
@@ -26,7 +30,19 @@ public class ContactService {
     }
 
     public Contact updateContact(Long id, Contact updatedContact) {
-        return null;
+        var optional = repository.findById(id);
+
+        if (optional.isPresent()) {
+            Contact existingContact = optional.get();
+
+            existingContact.setEmail(updatedContact.getEmail());
+            existingContact.setTelephone(updatedContact.getTelephone());
+
+            return repository.save(existingContact);
+        } else {
+
+            throw new EntityNotFoundException("Contact not found with id: " + id);
+        }
     }
 
     public void deleteContact(Long id) {
