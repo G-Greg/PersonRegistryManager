@@ -14,43 +14,55 @@ public class AddressService {
     @Autowired
     private AddressRepository repository;
 
+    @Autowired
+    private PersonService personService;
+
+
     public List<Address> getAddresses() {
         return repository.findAll();
     }
 
     public Address getAddressById(Long id) {
-        var optional = repository.findById(id);
-        if (optional.isPresent())
-            return optional.get();
-        return null;
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("A keresett cím nem található! id:" + id));
     }
 
-    public Address createAddress(Address address) {
-        //akkor adjuk hozzá ha nem több mint 2
-        //és csak 1 áll. és 1 ideig.
-        return repository.save(address);
+    public Address addAddressTo(Long id, Address address) {
+        var person = personService.getPersonById(id);
+
+        if (person.getAddresses().size() < 2) {
+            checkAddressIsValid(id, address);
+            return repository.save(address);
+
+        } else {
+            throw new RuntimeException("Nem rendelkezhet kettőnél több lakcímmel!");
+        }
     }
 
     public Address updateAddress(Long id, Address updatedAddress) {
-        //akkor adjuk hozzá ha nem több mint 2
-        //és csak 1 áll. és 1 ideig.
-        var optional = repository.findById(id);
+        checkAddressIsValid(id, updatedAddress);
 
-        if (optional.isPresent()) {
-            Address existingContact = optional.get();
+        var existingAddress = getAddressById(id);
 
-            existingContact.setZip(updatedAddress.getZip());
-            existingContact.setCity(updatedAddress.getCity());
-            existingContact.setStreet(updatedAddress.getStreet());
-            existingContact.setIsPermanent(updatedAddress.getIsPermanent());
+        existingAddress.setZip(updatedAddress.getZip());
+        existingAddress.setCity(updatedAddress.getCity());
+        existingAddress.setStreet(updatedAddress.getStreet());
+        existingAddress.setIsPermanent(updatedAddress.getIsPermanent());
 
-            return repository.save(existingContact);
-        } else {
-            throw new EntityNotFoundException("A cím nem található! id:" + id);
-        }
+        return repository.save(existingAddress);
     }
 
     public void deleteAddress(Long id) {
         repository.deleteById(id);
+    }
+
+    private void checkAddressIsValid(Long id, Address address) {
+        var person = personService.getPersonById(id);
+
+        if (person.getAddresses().get(0).getIsPermanent() == 1 && address.getIsPermanent() == 1) {
+            throw new RuntimeException("Nem rendelkezhet kettő állandó lakcímmel!");
+
+        } else if (person.getAddresses().get(0).getIsPermanent() == 0 && address.getIsPermanent() == 0)
+            throw new RuntimeException("Nem rendelkezhet kettő ideiglenes lakcímmel!");
+
     }
 }

@@ -27,10 +27,10 @@ public class AddressController {
         return ResponseEntity.ok(address);
     }
 
-    @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        Address createdAddress = service.createAddress(address);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdAddress);
+    @PostMapping("/{id}")
+    public ResponseEntity<Address> addAddressTo(@PathVariable Long id, @RequestBody Address address) {
+        Address addedAddress = service.addAddressTo(id, address);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedAddress);
     }
 
     @PutMapping("/{id}")
