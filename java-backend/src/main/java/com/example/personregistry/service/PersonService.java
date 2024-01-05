@@ -29,7 +29,7 @@ public class PersonService {
     }
 
     public Person getPersonById(Long id) {
-        return personRepository.findById(id).orElseThrow(() -> new RuntimeException("A keresett személy nem található! id:" + id));
+        return personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("A keresett személy nem található! id:" + id));
     }
 
     public Person createPerson(Person person) {
