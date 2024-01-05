@@ -3,7 +3,6 @@ package com.example.personregistry.controller;
 import com.example.personregistry.model.Contact;
 import com.example.personregistry.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +24,6 @@ public class ContactController {
     public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
         Contact contact = service.getContactById(id);
         return ResponseEntity.ok(contact);
-    }
-
-    @PostMapping
-    public ResponseEntity<Contact> createContact(@RequestBody Contact contact) {
-        Contact createdContact = service.createContact(contact);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdContact);
     }
 
     @PutMapping("/{id}")

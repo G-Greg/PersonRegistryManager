@@ -19,14 +19,7 @@ public class ContactService {
     }
 
     public Contact getContactById(Long id) {
-        var optional = repository.findById(id);
-        if (optional.isPresent())
-            return optional.get();
-        return null;
-    }
-
-    public Contact createContact(Contact contact) {
-        return repository.save(contact);
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("A keresett elérhetőség nem található! id:" + id));
     }
 
     public Contact updateContact(Long id, Contact updatedContact) {
@@ -40,7 +33,7 @@ public class ContactService {
 
             return repository.save(existingContact);
         } else {
-            throw new EntityNotFoundException("Az eléhetőség nem található! id:" + id);
+            throw new EntityNotFoundException("Az elérhetőség nem található! id:" + id);
         }
     }
 

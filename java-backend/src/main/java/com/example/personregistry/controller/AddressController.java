@@ -3,7 +3,6 @@ package com.example.personregistry.controller;
 import com.example.personregistry.model.Address;
 import com.example.personregistry.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,7 @@ public class AddressController {
     private AddressService service;
 
     @GetMapping
-    public ResponseEntity<List<Address>> getAddresses(){
+    public ResponseEntity<List<Address>> getAddresses() {
         return ResponseEntity.ok(service.getAddresses());
     }
 
@@ -25,12 +24,6 @@ public class AddressController {
     public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
         Address address = service.getAddressById(id);
         return ResponseEntity.ok(address);
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<Address> addAddressTo(@PathVariable Long id, @RequestBody Address address) {
-        Address addedAddress = service.addAddressTo(id, address);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedAddress);
     }
 
     @PutMapping("/{id}")
