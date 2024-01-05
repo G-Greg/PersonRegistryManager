@@ -26,10 +26,14 @@ public class AddressService {
     }
 
     public Address createAddress(Address address) {
-        return null;
+        //akkor adjuk hozzá ha nem több mint 2
+        //és csak 1 áll. és 1 ideig.
+        return repository.save(address);
     }
 
     public Address updateAddress(Long id, Address updatedAddress) {
+        //akkor adjuk hozzá ha nem több mint 2
+        //és csak 1 áll. és 1 ideig.
         var optional = repository.findById(id);
 
         if (optional.isPresent()) {
@@ -42,14 +46,11 @@ public class AddressService {
 
             return repository.save(existingContact);
         } else {
-
-            throw new EntityNotFoundException("Address not found with id: " + id);
+            throw new EntityNotFoundException("A cím nem található! id:" + id);
         }
     }
 
     public void deleteAddress(Long id) {
         repository.deleteById(id);
     }
-
-
 }

@@ -31,5 +31,10 @@ public class Address {
     @Column(name = "is_permanent")
     private int isPermanent;
 
+    @Override
+    public String toString() {
+        if (isPermanent == 1)
+            return String.format("Cím: %d, %s, %s - állandó %n", zip, city, street);
+        return String.format("Cím: %d, %s, %s - ideiglenes %n", zip, city, street);
+    }
 }
-

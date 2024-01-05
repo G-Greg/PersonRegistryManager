@@ -26,7 +26,7 @@ public class ContactService {
     }
 
     public Contact createContact(Contact contact) {
-        return null;
+        return repository.save(contact);
     }
 
     public Contact updateContact(Long id, Contact updatedContact) {
@@ -40,8 +40,7 @@ public class ContactService {
 
             return repository.save(existingContact);
         } else {
-
-            throw new EntityNotFoundException("Contact not found with id: " + id);
+            throw new EntityNotFoundException("Az eléhetőség nem található! id:" + id);
         }
     }
 

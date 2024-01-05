@@ -25,4 +25,9 @@ public class Contact {
     private String email;
 
     private String telephone;
+
+    @Override
+    public String toString() {
+        return String.format("Elérhetőség: %s, %s %n", email, telephone);
+    }
 }

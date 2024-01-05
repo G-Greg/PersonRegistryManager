@@ -29,10 +29,7 @@ public class PersonService {
     }
 
     public Person getPersonById(Long id) {
-        var optional = personRepository.findById(id);
-        if (optional.isPresent())
-            return optional.get();
-        return null;
+        return personRepository.findById(id).orElseThrow(() -> new RuntimeException("A keresett személy nem található! id:" + id));
     }
 
     public Person createPerson(Person person) {
@@ -40,44 +37,25 @@ public class PersonService {
     }
 
     public Person updatePerson(Long id, Person updatedPerson) {
-        var optionalPerson = personRepository.findById(id);
+        var existingPerson = getPersonById(id);
 
-        if (optionalPerson.isPresent()) {
-            Person existingPerson = optionalPerson.get();
+        existingPerson.setFirstName(updatedPerson.getFirstName());
+        existingPerson.setLastName(updatedPerson.getLastName());
+        existingPerson.setAddresses(updatedPerson.getAddresses());
+        existingPerson.setContacts(updatedPerson.getContacts());
 
-            existingPerson.setFirstName(updatedPerson.getFirstName());
-            existingPerson.setLastName(updatedPerson.getLastName());
-
-
-            //Update Addresses by line
-            var newAddresses = new ArrayList<Address>();
-            for (int i = 0; i < existingPerson.getAddresses().size(); i++) {
-                newAddresses.add(addressService.updateAddress(
-                        existingPerson.getAddresses().get(i).getId(),
-                        updatedPerson.getAddresses().get(i)
-                ));
-            }
-            existingPerson.setAddresses(newAddresses);
-
-
-            //Update Contacts by line
-            var newContacts = new ArrayList<Contact>();
-            for (int i = 0; i < existingPerson.getContacts().size(); i++) {
-                newContacts.add(contactService.updateContact(
-                        existingPerson.getAddresses().get(i).getId(),
-                        updatedPerson.getContacts().get(i)
-                ));
-            }
-            existingPerson.setContacts(newContacts);
-
-            return personRepository.save(existingPerson);
-        } else {
-
-            throw new EntityNotFoundException("Person not found with id: " + id);
-        }
+        return personRepository.save(existingPerson);
     }
 
     public void deletePerson(Long id) {
+        var person = getPersonById(id);
+
         personRepository.deleteById(id);
+
+        for (Address address : person.getAddresses())
+            addressService.deleteAddress(address.getId());
+
+        for (Contact contact : person.getContacts())
+            contactService.deleteContact(contact.getId());
     }
 }

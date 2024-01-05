@@ -34,9 +34,9 @@ public class ContactController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody Contact updatedContact) {
-        Contact contact = service.updateContact(id, updatedContact);
-        return ResponseEntity.ok(contact);
+    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody Contact contact) {
+        Contact updatedContact = service.updateContact(id, contact);
+        return ResponseEntity.ok(updatedContact);
     }
 
     @DeleteMapping("/{id}")
