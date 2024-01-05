@@ -23,18 +23,12 @@ public class ContactService {
     }
 
     public Contact updateContact(Long id, Contact updatedContact) {
-        var optional = repository.findById(id);
+        var existingContact = getContactById(id);
 
-        if (optional.isPresent()) {
-            Contact existingContact = optional.get();
+        existingContact.setEmail(updatedContact.getEmail());
+        existingContact.setTelephone(updatedContact.getTelephone());
 
-            existingContact.setEmail(updatedContact.getEmail());
-            existingContact.setTelephone(updatedContact.getTelephone());
-
-            return repository.save(existingContact);
-        } else {
-            throw new EntityNotFoundException("Az elérhetőség nem található! id:" + id);
-        }
+        return repository.save(existingContact);
     }
 
     public void deleteContact(Long id) {
