@@ -33,15 +33,34 @@ public class PersonService {
     }
 
     public Person createPerson(Person person) {
+        for(Address address : person.getAddresses()){
+            address.setPerson(person);
+        }
+
+        for(Contact contact : person.getContacts()){
+            contact.setPerson(person);
+        }
         return personRepository.save(person);
     }
 
     public Person updatePerson(Long id, Person updatedPerson) {
         var existingPerson = getPersonById(id);
 
+        if(updatedPerson.getId() == null){
+            updatedPerson.setId(existingPerson.getId());
+        }
+
         existingPerson.setFirstName(updatedPerson.getFirstName());
         existingPerson.setLastName(updatedPerson.getLastName());
+
+        for(Address address : updatedPerson.getAddresses()){
+            address.setPerson(updatedPerson);
+        }
         existingPerson.setAddresses(updatedPerson.getAddresses());
+
+        for(Contact contact : updatedPerson.getContacts()){
+            contact.setPerson(updatedPerson);
+        }
         existingPerson.setContacts(updatedPerson.getContacts());
 
         return personRepository.save(existingPerson);
