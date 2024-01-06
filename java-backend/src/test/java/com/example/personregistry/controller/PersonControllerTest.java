@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
 @WebMvcTest(controllers = PersonController.class)
@@ -39,7 +41,6 @@ public class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
 
     @MockBean
     private PersonService personService;
@@ -81,8 +82,8 @@ public class PersonControllerTest {
         // Személy #3
         persons.add(Person.builder()
                 .id(3L)
-                .firstName("FirstName3")
-                .lastName("LastName3")
+                .firstName("Lajos")
+                .lastName("Nagy")
                 .addresses(Arrays.asList(
                         Address.builder().zip(1501).city("Budapest").street("Andrássy út 5.").isPermanent(1).build(),
                         Address.builder().zip(1601).city("Budapest").street("Blaha Lujza tér 6.").isPermanent(0).build()
@@ -96,8 +97,8 @@ public class PersonControllerTest {
         // Személy #4
         persons.add(Person.builder()
                 .id(4L)
-                .firstName("FirstName4")
-                .lastName("LastName4")
+                .firstName("Ferenc")
+                .lastName("Erdős")
                 .addresses(Arrays.asList(
                         Address.builder().zip(1701).city("Budapest").street("Oktogon 7.").isPermanent(0).build(),
                         Address.builder().zip(1801).city("Budapest").street("Nyugati pályaudvar 8.").isPermanent(1).build()
@@ -111,8 +112,8 @@ public class PersonControllerTest {
         // Személy #5
         persons.add(Person.builder()
                 .id(5L)
-                .firstName("FirstName5")
-                .lastName("LastName5")
+                .firstName("Helga")
+                .lastName("Barna")
                 .addresses(Arrays.asList(
                         Address.builder().zip(1901).city("Budapest").street("Keleti pályaudvar 9.").isPermanent(1).build(),
                         Address.builder().zip(2001).city("Budapest").street("Széchenyi fürdő 10.").isPermanent(0).build()
@@ -125,20 +126,39 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_GetPersons_ReturnPersons() throws Exception {
+    public void PersonController_GetAllPerson_ReturnPersons() throws Exception {
         // Arrange
         when(personService.getPersons()).thenReturn(persons);
 
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.get("/persons"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(persons.size()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(5))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("John"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].lastName").value("Doe"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].firstName").value("Jane"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].lastName").value("Doe"));
+    }
+
+    @Test
+    public void PersonController_GetPersonById_ReturnPerson() throws Exception {
+        var helga = persons.get(4);
+        // Arrange
+        when(personService.getPersonById(5L)).thenReturn(persons.get(4));
+
+
+        // Act & Assert
+        ResultActions response = mockMvc.perform(get("/persons/5")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(persons.get(4))));
+
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(helga.getId().intValue())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(helga.getFirstName())));
+
     }
 
     @Test
@@ -155,4 +175,32 @@ public class PersonControllerTest {
         response.andExpect(MockMvcResultMatchers.content().json("{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Doe\",\"addresses\":[{\"id\":null,\"zip\":1045,\"city\":\"Budapest\",\"street\":\"Petőfi utca 5.\",\"isPermanent\":0}],\"contacts\":[{\"id\":null,\"email\":\"teszt@email.com\",\"telephone\":\"+36 30 548 9618\"}]}"));
 
     }
+
+    @Test
+    public void PersonController_UpdatePerson_ReturnUpdatedPerson() throws Exception {
+        Person chosenOne = persons.get(0);
+
+        chosenOne.setFirstName("Alex");
+
+        given(personService.updatePerson(anyLong(), any(Person.class))).willReturn(new Person( chosenOne.getId(), chosenOne.getFirstName(), chosenOne.getLastName(), chosenOne.getAddresses(), chosenOne.getContacts()));
+
+        ResultActions response = mockMvc.perform(put("/persons/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(chosenOne)));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is("Alex")));
+    }
+
+    @Test
+    public void PersonController_DeletePerson_ReturnVoid() throws Exception {
+        Person chosenOne = persons.get(0);
+
+        doNothing().when(personService).deletePerson(chosenOne.getId());
+
+        mockMvc.perform(delete("/persons/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+    }
+
 }
