@@ -1,5 +1,6 @@
 package com.example.personregistry.model;
 
+import com.example.personregistry.exception.AddressException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,15 +44,15 @@ public class Person {
         } else if (addresses.size() == 2) {
 
             if (addresses.get(0).getIsPermanent() == 0 && addresses.get(1).getIsPermanent() == 0)
-                throw new RuntimeException("Egyszerre csak egy ideiglenes címmel rendelkezhet!");
+                throw new AddressException("Egyszerre csak egy ideiglenes címmel rendelkezhet!");
 
             else if (addresses.get(0).getIsPermanent() == 1 && addresses.get(1).getIsPermanent() == 1)
-                throw new RuntimeException("Egyszerre csak egy állandó címmel rendelkezhet!");
+                throw new AddressException("Egyszerre csak egy állandó címmel rendelkezhet!");
 
             else
                 this.addresses = addresses;
         } else {
-            throw new RuntimeException("Egy személyhez legfeljebb két cím tartozhat!");
+            throw new AddressException("Egy személyhez legfeljebb két cím tartozhat!");
         }
     }
 
