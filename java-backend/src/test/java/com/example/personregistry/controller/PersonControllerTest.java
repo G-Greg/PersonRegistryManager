@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebMvcTest(controllers = PersonController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-public class PersonControllerTest {
+class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -126,7 +126,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_GetAllPerson_ReturnPersons() throws Exception {
+    void PersonController_GetAllPerson_ReturnPersons() throws Exception {
         // Arrange
         when(personService.getPersons()).thenReturn(persons);
 
@@ -143,7 +143,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_GetPersonById_ReturnPerson() throws Exception {
+    void PersonController_GetPersonById_ReturnPerson() throws Exception {
         var helga = persons.get(4);
         // Arrange
         when(personService.getPersonById(5L)).thenReturn(persons.get(4));
@@ -162,7 +162,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_CreatePerson_ReturnPerson() throws Exception {
+    void PersonController_CreatePerson_ReturnPerson() throws Exception {
         //Act
         given(personService.createPerson(any(Person.class))).willReturn(persons.get(0));
 
@@ -177,7 +177,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_UpdatePerson_ReturnUpdatedPerson() throws Exception {
+    void PersonController_UpdatePerson_ReturnUpdatedPerson() throws Exception {
         Person chosenOne = persons.get(0);
 
         chosenOne.setFirstName("Alex");
@@ -193,7 +193,7 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void PersonController_DeletePerson_ReturnVoid() throws Exception {
+    void PersonController_DeletePerson_ReturnVoid() throws Exception {
         Person chosenOne = persons.get(0);
 
         doNothing().when(personService).deletePerson(chosenOne.getId());

@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonServiceTest {
+class PersonServiceTest {
 
     @Mock
     private PersonRepository personRepository;
@@ -30,7 +30,7 @@ public class PersonServiceTest {
 
 
     @Test
-    public void savePerson_returnPerson() {
+    void savePerson_returnPerson() {
         var person = Person.builder()
                 .id(1L)
                 .firstName("Márton")
@@ -52,7 +52,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void savePersonWithMoreAddresses_returnAddressException(){
+    void savePersonWithMoreAddresses_returnAddressException(){
         var person = Person.builder()
                 .firstName("Márton")
                 .lastName("Sas")
@@ -72,7 +72,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void savePersonWithWrongAddresses_returnAddressException(){
+    void savePersonWithWrongAddresses_returnAddressException(){
         var person = Person.builder()
                 .firstName("Márton")
                 .lastName("Sas")
