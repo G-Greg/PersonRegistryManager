@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class AddressService {
 
+    private final AddressRepository repository;
+
     @Autowired
-    private AddressRepository repository;
+    public AddressService(AddressRepository repository) {
+        this.repository = repository;
+    }
 
 
     public List<Address> getAddresses() {

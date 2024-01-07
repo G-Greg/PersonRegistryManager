@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class ContactService {
 
+    private final ContactRepository repository;
+
     @Autowired
-    private ContactRepository repository;
+    public ContactService(ContactRepository repository) {
+        this.repository = repository;
+    }
 
     public List<Contact> getContacts() {
         return repository.findAll();

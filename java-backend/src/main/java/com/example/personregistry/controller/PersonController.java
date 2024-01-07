@@ -13,11 +13,15 @@ import java.util.List;
 @RequestMapping("/persons")
 public class PersonController {
 
+    private final PersonService service;
+
     @Autowired
-    private PersonService service;
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Person>> getPersons(){
+    public ResponseEntity<List<Person>> getPersons() {
         return ResponseEntity.ok(service.getPersons());
     }
 

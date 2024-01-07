@@ -12,11 +12,15 @@ import java.util.List;
 @RequestMapping("/contacts")
 public class ContactController {
 
+    private final ContactService service;
+
     @Autowired
-    private ContactService service;
+    public ContactController(ContactService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Contact>> getContacts(){
+    public ResponseEntity<List<Contact>> getContacts() {
         return ResponseEntity.ok(service.getContacts());
     }
 

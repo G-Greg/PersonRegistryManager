@@ -8,20 +8,23 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PersonService {
 
-    @Autowired
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
+
+    private final AddressService addressService;
+
+    private final ContactService contactService;
 
     @Autowired
-    private AddressService addressService;
-
-    @Autowired
-    private ContactService contactService;
+    public PersonService(PersonRepository personRepository, AddressService addressService, ContactService contactService) {
+        this.personRepository = personRepository;
+        this.addressService = addressService;
+        this.contactService = contactService;
+    }
 
 
     public List<Person> getPersons() {
@@ -33,11 +36,11 @@ public class PersonService {
     }
 
     public Person createPerson(Person person) {
-        for(Address address : person.getAddresses()){
+        for (Address address : person.getAddresses()) {
             address.setPerson(person);
         }
 
-        for(Contact contact : person.getContacts()){
+        for (Contact contact : person.getContacts()) {
             contact.setPerson(person);
         }
         return personRepository.save(person);
@@ -46,19 +49,19 @@ public class PersonService {
     public Person updatePerson(Long id, Person updatedPerson) {
         var existingPerson = getPersonById(id);
 
-        if(updatedPerson.getId() == null){
+        if (updatedPerson.getId() == null) {
             updatedPerson.setId(existingPerson.getId());
         }
 
         existingPerson.setFirstName(updatedPerson.getFirstName());
         existingPerson.setLastName(updatedPerson.getLastName());
 
-        for(Address address : updatedPerson.getAddresses()){
+        for (Address address : updatedPerson.getAddresses()) {
             address.setPerson(updatedPerson);
         }
         existingPerson.setAddresses(updatedPerson.getAddresses());
 
-        for(Contact contact : updatedPerson.getContacts()){
+        for (Contact contact : updatedPerson.getContacts()) {
             contact.setPerson(updatedPerson);
         }
         existingPerson.setContacts(updatedPerson.getContacts());
