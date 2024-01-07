@@ -28,7 +28,6 @@ class PersonServiceTest {
     private PersonService personService;
 
 
-
     @Test
     void savePerson_returnPerson() {
         var person = Person.builder()
@@ -48,11 +47,11 @@ class PersonServiceTest {
         Person createdPerson = personService.createPerson(person);
 
         assertThat(createdPerson).isNotNull();
-        assertThat(createdPerson.getFirstName().equals(person.getFirstName())).isTrue();
+        assertThat(createdPerson.getFirstName()).isEqualTo(person.getFirstName());
     }
 
     @Test
-    void savePersonWithMoreAddresses_returnAddressException(){
+    void savePersonWithMoreAddresses_returnAddressException() {
         var person = Person.builder()
                 .firstName("Márton")
                 .lastName("Sas")
@@ -72,7 +71,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void savePersonWithWrongAddresses_returnAddressException(){
+    void savePersonWithWrongAddresses_returnAddressException() {
         var person = Person.builder()
                 .firstName("Márton")
                 .lastName("Sas")
