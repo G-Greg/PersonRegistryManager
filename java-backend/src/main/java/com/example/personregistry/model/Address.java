@@ -33,8 +33,7 @@ public class Address {
 
     @Override
     public String toString() {
-        if (isPermanent == 1)
-            return String.format("Cím: %d, %s, %s - állandó %n", zip, city, street);
-        return String.format("Cím: %d, %s, %s - ideiglenes %n", zip, city, street);
+        var type = (isPermanent == 1) ? "állandó" : "ideiglenes";
+        return String.format("Cím: %d, %s, %s - %s %n", zip, city, street, type);
     }
 }

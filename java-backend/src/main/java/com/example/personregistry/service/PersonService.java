@@ -14,16 +14,9 @@ import java.util.List;
 public class PersonService {
 
     private final PersonRepository personRepository;
-
-    private final AddressService addressService;
-
-    private final ContactService contactService;
-
     @Autowired
-    public PersonService(PersonRepository personRepository, AddressService addressService, ContactService contactService) {
+    public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
-        this.addressService = addressService;
-        this.contactService = contactService;
     }
 
 
@@ -70,14 +63,6 @@ public class PersonService {
     }
 
     public void deletePerson(Long id) {
-        var person = getPersonById(id);
-
         personRepository.deleteById(id);
-
-        for (Address address : person.getAddresses())
-            addressService.deleteAddress(address.getId());
-
-        for (Contact contact : person.getContacts())
-            contactService.deleteContact(contact.getId());
     }
 }
