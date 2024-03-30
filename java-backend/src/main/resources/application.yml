@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: PersonRegistryManager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/PersonRegistryManager
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
