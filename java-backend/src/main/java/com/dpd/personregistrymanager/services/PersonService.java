@@ -1,5 +1,6 @@
 package com.dpd.personregistrymanager.services;
 
+import com.dpd.personregistrymanager.models.Address;
 import com.dpd.personregistrymanager.models.Person;
 import com.dpd.personregistrymanager.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import java.util.List;
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private final AddressService addressService;
 
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, AddressService addressService) {
+
         this.personRepository = personRepository;
+        this.addressService = addressService;
     }
 
     public List<Person> getPersons() {
@@ -27,6 +31,10 @@ public class PersonService {
     }
 
     public Person createPerson(Person person) {
+        for (Address address : person.getAddresses()) {
+            address.setPerson(person);
+            addressService.createAddress(address);
+        }
         return personRepository.save(person);
     }
 
