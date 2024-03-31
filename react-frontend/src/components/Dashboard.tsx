@@ -1,12 +1,11 @@
 import React from 'react';
-import Home from './Home';
+import Create from './Create';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import List from './List';
+import Edit from './Edit';
 
 export default function Dashboard() {
-
-    //const navigate = useNavigate();
-
 
     return (
         <>
@@ -20,15 +19,21 @@ export default function Dashboard() {
                         </Nav>
 
                         <Navbar.Text>
-                            
+
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
-            <Container className="p-3">
-                <Home />
-            </Container>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/">
+                        <Route index element={<Create />} />
+                        <Route path="/persons" element={<List />} />
+                        <Route path="/persons/:id" element={<Edit />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
         </>
     );
 }

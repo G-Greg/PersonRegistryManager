@@ -1,10 +1,13 @@
 import React from 'react';
-import { Form, Col, Row, Image, Card } from 'react-bootstrap';
+import { Form, Col, Row, Card, Button, Container } from 'react-bootstrap';
 import { Address } from '../models/Address';
-import AddressCard from './AddressCard';
+import Addresses from './Addresses';
+import PhoneNumbers from './PhoneNumbers';
+import { Person } from '../models/Person';
+import { createPerson } from '../api/PersonAPI';
 
 
-export default function Home() {
+export default function Create() {
 
     //Name
     const [name, setName] = React.useState("");
@@ -49,23 +52,65 @@ export default function Home() {
 
 
     //Addresses
-    const [addresses, setAddresses] = React.useState<Address[]>([]);
-    const handleAddressesChange = (event) => {
-        setAddresses(event.target.value);
+    const [addresses, setAddresses] = React.useState<Address[]>([{} as Address]);
+    const handleAddressesChange = (addresses: Address[]) => {
+        setAddresses(addresses);
     };
 
 
     //PhoneNumbers
-    const [phoneNumbers, setPhoneNumbers] = React.useState([]);
-    const handlePhoneNumbersChange = (event) => {
-        setPhoneNumbers(event.target.value);
+    const [phoneNumbers, setPhoneNumbers] = React.useState<string[]>([""]);
+    const handlePhoneNumbersChange = (phoneNumbers: string[]) => {
+        setPhoneNumbers(phoneNumbers);
     };
 
 
+    /*const handleSubmit = (event) => {
+        event.preventDefault();
+        const person: Person = {
+            name: name,
+            birthdate: birthday,
+            birthplace: birthplace,
+            taj: parseInt(taj),
+            taxId: parseInt(taxId),
+            email: email,
+            addresses: addresses,
+            phoneNumbers: phoneNumbers
+        } as Person;
+        createPerson(person);
+    };*/
+
+    const [validated, setValidated] = React.useState(false);
+
+    const handleSubmit = (event) => {
+        //debugger
+        /*const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }*/
+
+        setValidated(true);
+
+        const person: Person = {
+            name: name,
+            birthdate: birthday,
+            birthplace: birthplace,
+            taj: parseInt(taj),
+            taxId: parseInt(taxId),
+            email: email,
+            addresses: addresses,
+            phoneNumbers: phoneNumbers
+        } as Person;
+        createPerson(person);
+    };
+
 
     return (
-        <>
-            <Form>
+        <Container className="p-3">
+            <Form noValidate validated={validated}>
+
+                <h1>Create</h1>
                 <Card style={{ backgroundColor: "rgb(255,255,255,0.8)" }}>
                     <Card.Body>
                         <Row>
@@ -110,17 +155,16 @@ export default function Home() {
                         </Row>
                         <Row>
                             <Form.Label>Addresses</Form.Label>
-                            <AddressCard />
+                            <Addresses addresses={addresses} handleAddressesChange={handleAddressesChange} />
+                        </Row>
+                        <Row>
+                            <Form.Label>Phone Numbers</Form.Label>
+                            <PhoneNumbers phoneNumbers={phoneNumbers} handlePhoneNumbersChange={handlePhoneNumbersChange} />
                         </Row>
 
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="phoneNumbers">
-                                    <Form.Label>Phone Numbers</Form.Label>
-                                    <Form.Control type="text" placeholder="Phone Numbers" value={phoneNumbers} onChange={handlePhoneNumbersChange} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <Button variant="primary" type="submit" onClick={handleSubmit}>
+                            Submit
+                        </Button>
 
 
                     </Card.Body>
@@ -129,6 +173,6 @@ export default function Home() {
                     </Card.Footer>
                 </Card>
             </Form>
-        </>
+        </Container>
     );
 }
