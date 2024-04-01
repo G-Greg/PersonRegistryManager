@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Form, Table } from "react-bootstrap";
+import { Button, Card, Container, Form, Table } from "react-bootstrap";
 import { Person } from "../models/Person";
 import { GRDPRPersonDelete, deletePerson, getPersons, updatePerson } from "../api/PersonAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -159,78 +159,82 @@ export default function List() {
     }
 
     return (
-        <Container className="p-2">
-            <h1>List</h1>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Birthday</th>
-                        <th>Birthplace</th>
-                        <th>TAJ</th>
-                        <th>TAX Id</th>
-                        <th>Email</th>
-                        <th >Address(es)
+        <Container className="p-2" fluid>
+            <Card style={{ backgroundColor: "rgb(255,255,255,0.8)" }}>
+                <Card.Body >
+                    <h1>List</h1>
+                    <Table striped bordered hover>
+                        <thead>
                             <tr>
-                                <th>ZIP</th>
-                                <th>City</th>
-                                <th>Street</th>
-                                <th>House Number</th>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Birthday</th>
+                                <th>Birthplace</th>
+                                <th>TAJ</th>
+                                <th>TAX Id</th>
+                                <th>Email</th>
+                                <th >Address(es)
+                                    <tr>
+                                        <th>ZIP</th>
+                                        <th>City</th>
+                                        <th>Street</th>
+                                        <th>House Number</th>
+                                    </tr>
+                                </th>
+                                <th>Phone Number(s)</th>
+                                <th></th>
                             </tr>
-                        </th>
-                        <th>Phone Number(s)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        persons?.map((person, index) =>
-                            <tr key={index}>
-                                <td>{person.id}</td>
-                                <td><Form.Control type="text" placeholder="Name" value={person.name} onChange={(value) => handleNameChange(value, index)} /></td>
-                                <td><Form.Control type="date" placeholder="Birthday" value={person.birthdate} onChange={(value) => handleBirthdayChange(value, index)} /></td>
-                                <td><Form.Control type="text" placeholder="Birthplace" value={person.birthplace} onChange={(value) => handleBirthplaceChange(value, index)} /></td>
-                                <td><Form.Control type="number" placeholder="TAJ" value={person.taj} onChange={(value) => handleTajChange(value, index)} /></td>
-                                <td><Form.Control type="number" placeholder="Tax Id" value={person.taxId} onChange={(value) => handleTaxIdChange(value, index)} /></td>
-                                <td><Form.Control type="text" placeholder="Email" value={person.email} onChange={(value) => handleEmailChange(value, index)} /></td>
-                                <td>
-                                    <table>
-                                        {
-                                            person.addresses.map((address, j) => (
-                                                <tr>
-                                                    <td><Form.Control type="number" placeholder="ZIP" value={address.zipCode} onChange={(value) => handleZipCodeChange(value, index, j)} /></td>
-                                                    <td><Form.Control type="text" placeholder="City" value={address.city} onChange={(value) => handleCityChange(value, index, j)} /></td>
-                                                    <td><Form.Control type="text" placeholder="Street" value={address.street} onChange={(value) => handleStreetChange(value, index, j)} /></td>
-                                                    <td><Form.Control type="number" placeholder="House Number" value={address.houseNumber} onChange={(value) => handleHouseNumberChange(value, index, j)} /></td>
-                                                    <Button variant="outline-danger" onClick={() => handleRemoveAddress(index, j)}><FontAwesomeIcon icon={faTrash} /></Button>
-                                                </tr>
-                                            ))
-                                        }
-                                        <Button variant="outline-primary" size="sm" onClick={() => handleAddAddress(index)}><FontAwesomeIcon icon={faAdd} /></Button>
-                                    </table>
-                                </td>
-                                <td>
-                                    {
-                                        person.phoneNumbers.map((phoneNumber, j) =>
-                                            <>
-                                                <Form.Control type="text" placeholder="Phone Number" value={phoneNumber} onChange={(value) => handlePhoneNumberChange(value, index, j)} />
-                                                <Button size="sm" variant="outline-danger" onClick={() => handleRemovePhoneNumber(index, j)}><FontAwesomeIcon icon={faTrash} /></Button>
-                                            </>
-                                        )
-                                    }{' '}
-                                    <Button variant="outline-primary" size="sm" onClick={() => handleAddPhoneNumber(index)}><FontAwesomeIcon icon={faAdd} /></Button>
-                                </td>
-                                <td>
-                                    <Button variant="primary" size="sm" onClick={() => handleEditPerson(index)}><FontAwesomeIcon icon={faSave} /></Button>{' '}
-                                    <Button variant="danger" size="sm" onClick={() => deletePersonById(person.id)}><FontAwesomeIcon icon={faTrash} /></Button>
-                                    <Button variant="outline-danger" size="sm" onClick={() => deleteGDRP(person.id)}>GDRP <FontAwesomeIcon icon={faTrash} /></Button>
-                                </td>
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </Table>
+                        </thead>
+                        <tbody>
+                            {
+                                persons?.map((person, index) =>
+                                    <tr key={index}>
+                                        <td>{person.id}</td>
+                                        <td><Form.Control type="text" placeholder="Name" value={person.name} onChange={(value) => handleNameChange(value, index)} /></td>
+                                        <td><Form.Control type="date" placeholder="Birthday" value={person.birthdate} onChange={(value) => handleBirthdayChange(value, index)} /></td>
+                                        <td><Form.Control type="text" placeholder="Birthplace" value={person.birthplace} onChange={(value) => handleBirthplaceChange(value, index)} /></td>
+                                        <td><Form.Control type="number" placeholder="TAJ" value={person.taj} onChange={(value) => handleTajChange(value, index)} /></td>
+                                        <td><Form.Control type="number" placeholder="Tax Id" value={person.taxId} onChange={(value) => handleTaxIdChange(value, index)} /></td>
+                                        <td><Form.Control type="text" placeholder="Email" value={person.email} onChange={(value) => handleEmailChange(value, index)} /></td>
+                                        <td>
+                                            <table>
+                                                {
+                                                    person.addresses.map((address, j) => (
+                                                        <tr>
+                                                            <td><Form.Control type="number" placeholder="ZIP" value={address.zipCode} onChange={(value) => handleZipCodeChange(value, index, j)} /></td>
+                                                            <td><Form.Control type="text" placeholder="City" value={address.city} onChange={(value) => handleCityChange(value, index, j)} /></td>
+                                                            <td><Form.Control type="text" placeholder="Street" value={address.street} onChange={(value) => handleStreetChange(value, index, j)} /></td>
+                                                            <td><Form.Control type="number" placeholder="House Number" value={address.houseNumber} onChange={(value) => handleHouseNumberChange(value, index, j)} /></td>
+                                                            <Button variant="outline-danger" onClick={() => handleRemoveAddress(index, j)}><FontAwesomeIcon icon={faTrash} /></Button>
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <Button variant="outline-primary" size="sm" onClick={() => handleAddAddress(index)}><FontAwesomeIcon icon={faAdd} /></Button>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            {
+                                                person.phoneNumbers.map((phoneNumber, j) =>
+                                                    <>
+                                                        <Form.Control type="text" placeholder="Phone Number" value={phoneNumber} onChange={(value) => handlePhoneNumberChange(value, index, j)} />
+                                                        <Button size="sm" variant="outline-danger" onClick={() => handleRemovePhoneNumber(index, j)}><FontAwesomeIcon icon={faTrash} /></Button>
+                                                    </>
+                                                )
+                                            }{' '}
+                                            <Button variant="outline-primary" size="sm" onClick={() => handleAddPhoneNumber(index)}><FontAwesomeIcon icon={faAdd} /></Button>
+                                        </td>
+                                        <td>
+                                            <Button variant="primary" size="sm" onClick={() => handleEditPerson(index)}><FontAwesomeIcon icon={faSave} /></Button>{' '}
+                                            <Button variant="danger" size="sm" onClick={() => deletePersonById(person.id)}><FontAwesomeIcon icon={faTrash} /></Button>
+                                            <Button variant="outline-danger" size="sm" onClick={() => deleteGDRP(person.id)}>GDRP <FontAwesomeIcon icon={faTrash} /></Button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Card>
         </Container>
     );
 }
