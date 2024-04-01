@@ -65,33 +65,7 @@ export default function Create() {
     };
 
 
-    /*const handleSubmit = (event) => {
-        event.preventDefault();
-        const person: Person = {
-            name: name,
-            birthdate: birthday,
-            birthplace: birthplace,
-            taj: parseInt(taj),
-            taxId: parseInt(taxId),
-            email: email,
-            addresses: addresses,
-            phoneNumbers: phoneNumbers
-        } as Person;
-        createPerson(person);
-    };*/
-
-    const [validated, setValidated] = React.useState(false);
-
     const handleSubmit = (event) => {
-        //debugger
-        /*const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }*/
-
-        setValidated(true);
-
         const person: Person = {
             name: name,
             birthdate: birthday,
@@ -107,8 +81,8 @@ export default function Create() {
 
 
     return (
-        <Container className="p-3">
-            <Form noValidate validated={validated}>
+        <Container className="p-2">
+            <Form>
 
                 <h1>Create</h1>
                 <Card style={{ backgroundColor: "rgb(255,255,255,0.8)" }}>

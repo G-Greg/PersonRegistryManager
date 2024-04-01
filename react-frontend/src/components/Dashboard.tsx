@@ -3,7 +3,6 @@ import Create from './Create';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import List from './List';
-import Edit from './Edit';
 
 export default function Dashboard() {
 
@@ -15,6 +14,7 @@ export default function Dashboard() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="me-auto">
+                            <Nav.Link href="/">Create</Nav.Link>
                             <Nav.Link href="/persons">List</Nav.Link>
                         </Nav>
 
@@ -30,7 +30,6 @@ export default function Dashboard() {
                     <Route path="/">
                         <Route index element={<Create />} />
                         <Route path="/persons" element={<List />} />
-                        <Route path="/persons/:id" element={<Edit />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

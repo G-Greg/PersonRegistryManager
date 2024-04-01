@@ -46,4 +46,10 @@ public class PersonController {
         personService.deletePerson(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/gdpr/{id}")
+    public ResponseEntity<Void> GRDPRPersonDelete(@PathVariable Long id) {
+        personService.GRDPRPersonDelete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

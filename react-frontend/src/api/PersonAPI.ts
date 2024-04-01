@@ -41,3 +41,10 @@ export async function deletePerson(id: number): Promise<void> {
             throw error;
         });
 }
+
+export async function GRDPRPersonDelete(id: number): Promise<void> {
+    await axios.delete(`${basePath}/gdpr/${id}`)
+        .catch(error => {
+            throw error;
+        });
+}

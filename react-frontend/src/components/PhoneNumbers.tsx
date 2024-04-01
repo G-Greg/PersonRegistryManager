@@ -16,7 +16,7 @@ export default function PhoneNumbers({ phoneNumbers, handlePhoneNumbersChange }:
         handlePhoneNumbersChange(newAddresses);
     }
 
-    const deletePhone = (index) => {
+    const deletePhoneNumber = (index) => {
         const newAddresses = [...phoneNumbers];
         newAddresses.splice(index, 1);
         handlePhoneNumbersChange(newAddresses);
@@ -36,7 +36,7 @@ export default function PhoneNumbers({ phoneNumbers, handlePhoneNumbersChange }:
 
                         <Col>
                             <Form.Group className="mb-3" controlId="">
-                                <Button variant="danger" onClick={() => deletePhone(index)} disabled={phoneNumbers.length === 1}><FontAwesomeIcon icon={faTrash} /></Button>
+                                <Button variant="danger" onClick={() => deletePhoneNumber(index)} disabled={phoneNumbers.length === 1}><FontAwesomeIcon icon={faTrash} /></Button>
                             </Form.Group>
                         </Col>
                     </Row>
