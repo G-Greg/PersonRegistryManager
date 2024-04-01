@@ -76,7 +76,13 @@ export default function Create() {
             addresses: addresses,
             phoneNumbers: phoneNumbers
         } as Person;
-        createPerson(person);
+        createPerson(person)
+            .then(() => {
+                alert("Person created");
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
 
 
