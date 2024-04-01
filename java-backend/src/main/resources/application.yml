@@ -9,5 +9,3 @@ spring:
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
-  liquibase:
-    change-log: classpath:db/changelog/changelog-master.sql
