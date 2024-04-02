@@ -25,15 +25,4 @@ public class AddressService {
         return addressRepository.findById(id).orElse(null);
     }
 
-    public Address createAddress(Address address) {
-        return addressRepository.save(address);
-    }
-
-    public Address updateAddress(Long id, Address address) {
-        return addressRepository.save(address);
-    }
-
-    public void deleteAddress(Long id) {
-        addressRepository.deleteById(id);
-    }
 }

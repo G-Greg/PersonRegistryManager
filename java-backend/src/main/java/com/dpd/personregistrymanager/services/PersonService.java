@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -100,7 +101,7 @@ public class PersonService {
             address.setHouseNumber(0);
         }
 
-        person.setPhoneNumbers(new ArrayList<>());
+        person.setPhoneNumbers(List.of(""));
         personRepository.save(person);
     }
 }
