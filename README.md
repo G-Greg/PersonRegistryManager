@@ -7,6 +7,9 @@
 docker-compose up --build
 ```
 
+Ezen a címen elérhető az alkalmazás:
+http://localhost:3000/persons
+
 Az alkalmazás három konténerben fog futni. 
 | App        | Port      |
 | :-------- | -------:   |
