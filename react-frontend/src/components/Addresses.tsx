@@ -5,13 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function Addresses({ addresses, handleAddressesChange }: { addresses: Address[], handleAddressesChange: any }) {
+export default function Addresses({ addresses, handleAddressesChange, errors }: { addresses: Address[], handleAddressesChange: any, errors: any }) {
     const addAddress = () => {
         handleAddressesChange([...addresses, {} as Address]);
     }
 
     const editZipCode = (index: number, event) => {
-        console.log(event.target.value);
         const newAddresses = [...addresses];
         newAddresses[index].zipCode = event.target.value;
         handleAddressesChange(newAddresses);
@@ -49,25 +48,56 @@ export default function Addresses({ addresses, handleAddressesChange }: { addres
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="zipCode">
-                                <Form.Control type="number" placeholder="ZIP Code" value={address.zipCode} onChange={(event) => editZipCode(index, event)} />
+                                <Form.Control
+                                    type="number"
+                                    placeholder="ZIP Code"
+                                    value={address.zipCode}
+                                    onChange={(event) => editZipCode(index, event)}
+                                    required
+                                    isInvalid={errors[`addresses[${index}].zipCode`]} />
+                                <Form.Control.Feedback type="invalid">{errors[`addresses[${index}].zipCode`]}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 
                         <Col>
                             <Form.Group className="mb-3" controlId="city">
-                                <Form.Control type="text" placeholder="City" value={address.city} onChange={(event) => editCity(index, event)} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="City"
+                                    value={address.city}
+                                    onChange={(event) => editCity(index, event)}
+                                    required
+                                    isInvalid={errors[`addresses[${index}].city`]} />
+                                <Form.Control.Feedback type="invalid">{errors[`addresses[${index}].city`]}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 
                         <Col>
                             <Form.Group className="mb-3" controlId="street">
-                                <Form.Control type="text" placeholder="Street" value={address.street} onChange={(event) => editStreet(index, event)} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Street"
+                                    value={address.street}
+                                    onChange={(event) => editStreet(index, event)}
+                                    required
+                                    isInvalid={errors[`addresses[${index}].street`]}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors[`addresses[${index}].street`]}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 
                         <Col>
                             <Form.Group className="mb-3" controlId="houseNumber">
-                                <Form.Control type="number" placeholder="House Number" value={address.houseNumber} onChange={(event) => editHouseNumber(index, event)} />
+                                <Form.Control
+                                    type="number"
+                                    min={0}
+                                    placeholder="House Number"
+                                    value={address.houseNumber}
+                                    onChange={(event) => editHouseNumber(index, event)}
+                                    required
+                                    isInvalid={errors[`addresses[${index}].houseNumber`]}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors[`addresses[${index}].houseNumber`]}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 

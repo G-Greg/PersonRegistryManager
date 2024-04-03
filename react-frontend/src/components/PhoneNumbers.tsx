@@ -4,13 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function PhoneNumbers({ phoneNumbers, handlePhoneNumbersChange }: { phoneNumbers: string[], handlePhoneNumbersChange: any }) {
+export default function PhoneNumbers({ phoneNumbers, handlePhoneNumbersChange, errors }: { phoneNumbers: string[], handlePhoneNumbersChange: any, errors: any }) {
     const addPhone = () => {
         handlePhoneNumbersChange([...phoneNumbers, ""]);
     }
 
     const editPhoneNumber = (index: number, event) => {
-        console.log(event.target.value);
         const newAddresses = [...phoneNumbers];
         newAddresses[index] = event.target.value;
         handlePhoneNumbersChange(newAddresses);
@@ -30,7 +29,15 @@ export default function PhoneNumbers({ phoneNumbers, handlePhoneNumbersChange }:
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="TelephoneNumber">
-                                <Form.Control type="number" placeholder="+36 30 ..." value={phoneNumber} onChange={(event) => editPhoneNumber(index, event)} />
+                                <Form.Control
+                                    type="number"
+                                    placeholder="+36 30 ..."
+                                    value={phoneNumber}
+                                    onChange={(event) => editPhoneNumber(index, event)}
+                                    required
+                                    isInvalid={errors[`phoneNumbers[${index}]`]}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors[`phoneNumbers[${index}]`]}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 
