@@ -1,11 +1,13 @@
 spring:
   application:
     name: PersonRegistryManager
-  jpa:
-    hibernate:
-      ddl-auto: update
+
   datasource:
-    url: jdbc:postgresql://postgres:5432/PersonRegistryManager
+    url: jdbc:postgresql://localhost:5432/PersonRegistryManager
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.sql
