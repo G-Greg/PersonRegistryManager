@@ -1,8 +1,8 @@
 import React from 'react';
-import Create from './Create';
+import CreatePage from './CreatePage';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import List from './List';
+import ListPage from './ListPage';
 
 export default function Dashboard() {
 
@@ -28,8 +28,8 @@ export default function Dashboard() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/">
-                        <Route index element={<Create />} />
-                        <Route path="/persons" element={<List />} />
+                        <Route index element={<CreatePage />} />
+                        <Route path="/persons" element={<ListPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

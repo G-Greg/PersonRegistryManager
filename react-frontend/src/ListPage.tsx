@@ -1,11 +1,11 @@
 import React from "react";
 import { Button, Card, Container, Form, Table } from "react-bootstrap";
-import { Person } from "../models/Person";
-import { GRDPRPersonDelete, deletePerson, getPersons, updatePerson } from "../api/PersonAPI";
+import { Person } from "./models/Person";
+import { GRDPRPersonDelete, deletePerson, getPersons, updatePerson } from "./api/PersonAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faAdd, faSave } from "@fortawesome/free-solid-svg-icons"; import { Address } from "../models/Address";
+import { faTrash, faAdd, faSave } from "@fortawesome/free-solid-svg-icons"; import { Address } from "./models/Address";
 
-export default function List() {
+export default function ListPage() {
     const [persons, setPersons] = React.useState<Person[]>();
     React.useEffect(() => {
         getPersons()
